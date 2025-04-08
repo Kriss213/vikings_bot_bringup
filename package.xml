@@ -4,16 +4,12 @@
   <name>vikings_bot_bringup</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="jecuks96@gmail.coms">hercogs</maintainer>
+  <maintainer email="kriss.vasermanslv@gmail.com">Krišs</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclpy</depend>
-  <depend>domain_bridge</depend>
-  <depend>rmw_cyclonedds_cpp</depend>
-  <depend>teleop_twist_joy</depend>
-  <depend>joy</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
