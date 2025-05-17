@@ -26,16 +26,28 @@ def generate_launch_description():
         ])
     )
 
-    # path planner server
-    path_planner_node = IncludeLaunchDescription(
-        AnyLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('vikings_bot_path_planner_server'),
-                'launch',
-                'minimal_planner.launch.py'
-            ])
-        ])
-    )
+    # path planner server for each robot
+    # TODO robot_count as param
+    robot_count=5
+    path_planner_nodes = []
+    for i in range(1,robot_count+1):
+        # create obstacle topics omitting own obstacle topic
+        obs_topics = [f"/R{r}/position" for r in range(1,robot_count+1) if r!=i]
+
+        path_planner_node = IncludeLaunchDescription(
+            AnyLaunchDescriptionSource([
+                PathJoinSubstitution([
+                    FindPackageShare('vikings_bot_path_planner_server'),
+                    'launch',
+                    'minimal_planner.launch.py'
+                ]) 
+            ]),
+            launch_arguments={
+                'namespace': f"R{i}",
+                'obstacle_topics': str(obs_topics)
+            }.items()
+        )
+        path_planner_nodes.append(path_planner_node)
 
     # rviz node
     rviz_node = Node(
@@ -58,5 +70,5 @@ def generate_launch_description():
         rviz_node,
         map_server_node,
         stat_tf,
-        path_planner_node,
-    ])
+        #path_planner_node,
+    ] + path_planner_nodes)
