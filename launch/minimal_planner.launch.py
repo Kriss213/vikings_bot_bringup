@@ -33,6 +33,7 @@ def generate_launch_description():
     for i in range(1,robot_count+1):
         # create obstacle topics omitting own obstacle topic
         obs_topics = [f"/R{r}/position" for r in range(1,robot_count+1) if r!=i]
+        pos_topic = f"/R{i}/position"
 
         path_planner_node = IncludeLaunchDescription(
             AnyLaunchDescriptionSource([
@@ -44,7 +45,8 @@ def generate_launch_description():
             ]),
             launch_arguments={
                 'namespace': f"R{i}",
-                'obstacle_topics': str(obs_topics)
+                'obstacle_topics': str(obs_topics),
+                'position_topic': pos_topic,
             }.items()
         )
         path_planner_nodes.append(path_planner_node)
